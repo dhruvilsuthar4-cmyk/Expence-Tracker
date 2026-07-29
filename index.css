@@ -1,0 +1,288 @@
+
+  :root{
+    --paper: #F6F1E4;
+    --paper-line: #E4D9BE;
+    --ink: #1C2A40;
+    --ink-soft: #4A5670;
+    --credit: #1E6B49;
+    --debit: #8A1F3B;
+    --gold: #B8912E;
+    --gold-deep: #8C6B1F;
+    --card-shadow: 0 18px 40px -18px rgba(28,42,64,0.35);
+  }
+
+  *{ box-sizing: border-box; }
+
+  body{
+    margin:0;
+    min-height:100vh;
+    background:
+    radial-gradient(circle at 10% 0%, #FBF8EF 0%, var(--paper) 45%),
+    repeating-linear-gradient(180deg, transparent 0 39px, var(--paper-line) 39px 40px);
+    color: var(--ink);
+    font-family: Georgia, 'Times New Roman', serif;
+    padding: 32px 16px 64px;
+  }
+
+  .wrap{
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  /* ---------- Header : passbook cover ---------- */
+  .cover{
+    background: linear-gradient(160deg, #1C2A40 0%, #24365A 55%, #1C2A40 100%);
+    color: #F1E9CF;
+    border-radius: 14px;
+    padding: 28px 32px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image: radial-gradient(circle at 90% 10%, rgba(184,145,46,0.18), transparent 55%);
+  }
+  .cover-eyebrow{
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: var(--gold);
+    font-family: 'Courier New', monospace;
+  }
+  .cover h1{
+    margin: 6px 0 4px;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+  }
+  .cover p{
+    margin: 0;
+    color: #C9D2E4;
+    font-size: 14px;
+  }
+  .cover-mark{
+    position:absolute; right: 26px; top: 22px;
+    width: 58px; height: 58px;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 26px; color: var(--gold);
+    font-family: Georgia, serif;
+    transform: rotate(-8deg);
+    opacity: 0.9;
+  }
+
+  /* ---------- Summary strip : three stamped entries ---------- */
+  .summary{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 18px;
+  }
+  .stamp{
+    background: #FFFDF6;
+    border: 1px solid var(--paper-line);
+    border-radius: 10px;
+    padding: 16px 18px;
+    box-shadow: var(--card-shadow);
+    position: relative;
+  }
+  .stamp .label{
+    font-family: 'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .stamp .value{
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+  }
+  .stamp.balance .value{ color: var(--ink); }
+  .stamp.income .value{ color: var(--credit); }
+  .stamp.expense .value{ color: var(--debit); }
+  .stamp::after{
+    content: attr(data-tag);
+    position:absolute; top:12px; right:14px;
+    font-family:'Courier New', monospace;
+    font-size: 10px;
+    color: var(--gold-deep);
+    border: 1px solid var(--gold);
+    border-radius: 20px;
+    padding: 2px 8px;
+    letter-spacing: 0.08em;
+  }
+
+  /* ---------- Entry form : ledger slip ---------- */
+  .slip{
+    background: #FFFDF6;
+    border: 1px solid var(--paper-line);
+    border-radius: 10px;
+    margin-top: 22px;
+    padding: 22px 24px 20px;
+    box-shadow: var(--card-shadow);
+  }
+  .slip h2{
+    margin: 0 0 4px;
+    font-size: 15px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-family: 'Courier New', monospace;
+    display:flex; align-items:center; gap: 8px;
+  }
+  .slip h2::before{ content:"✎"; color: var(--gold-deep); }
+
+  form{
+    display:grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto;
+    gap: 12px;
+    margin-top: 14px;
+    align-items: end;
+  }
+
+  .field{ display:flex; flex-direction:column; gap:6px; }
+  .field label{
+    font-family:'Courier New', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.05em;
+  }
+
+  input, select{
+    font-family: Georgia, serif;
+    font-size: 14px;
+    padding: 9px 10px;
+    border: 1px solid #D8CBA4;
+    border-radius: 6px;
+    background: #FFFEFA;
+    color: var(--ink);
+  }
+  
+  input:focus, select:focus, button:focus-visible{
+    outline: 2px solid var(--gold-deep);
+    outline-offset: 1px;
+  }
+
+  .toggle-type{
+    display:flex; border: 1px solid #D8CBA4; border-radius: 6px; overflow:hidden;
+  }
+  .toggle-type button{
+    flex:1; border:none; padding: 9px 6px; cursor:pointer;
+    font-family:'Courier New', monospace; font-size:12px;
+    background:#FFFEFA; color: var(--ink-soft);
+  }
+  .toggle-type button.active[data-type="income"]{ background: var(--credit); color:#fff; }
+  .toggle-type button.active[data-type="expense"]{ background: var(--debit); color:#fff; }
+
+  .submit-btn{
+    background: var(--ink);
+    color: #F1E9CF;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 18px;
+    font-family: 'Courier New', monospace;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .submit-btn:hover{ background: #2A3B5C; transform: translateY(-1px); }
+
+  .error-msg{
+    font-family:'Courier New', monospace;
+    font-size: 12px;
+    color: var(--debit);
+    margin-top: 8px;
+    min-height: 16px;
+  }
+
+  /* ---------- Ledger table ---------- */
+  .ledger{
+    background: #FFFDF6;
+    border: 1px solid var(--paper-line);
+    border-radius: 10px;
+    margin-top: 22px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+  }
+  .ledger-head{
+    display:flex; justify-content:space-between; align-items:center;
+    padding: 18px 24px 0;
+  }
+  .ledger-head h2{
+    margin:0; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-soft); font-family:'Courier New', monospace;
+  }
+  .filter-select{
+    font-family:'Courier New', monospace;
+    font-size: 12px;
+  }
+
+  table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 12px;
+  }
+  thead th{
+    text-align: left;
+    font-family:'Courier New', monospace;
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding: 10px 24px;
+    border-bottom: 1px solid var(--paper-line);
+  }
+  thead th.num, tbody td.num{ text-align: right; }
+  tbody td{
+    padding: 12px 24px;
+    border-bottom: 1px dashed var(--paper-line);
+    font-size: 14px;
+    vertical-align: middle;
+  }
+  tbody tr:last-child td{ border-bottom: none; }
+  .desc-cell .cat{
+    display:block;
+    font-family:'Courier New', monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+  .amt.credit{ color: var(--credit); font-variant-numeric: tabular-nums; font-weight:600; }
+  .amt.debit{ color: var(--debit); font-variant-numeric: tabular-nums; font-weight:600; }
+  .running{ font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+  .del-btn{
+    background: none; border: none; cursor: pointer;
+    color: var(--ink-soft); font-size: 13px;
+    font-family:'Courier New', monospace;
+  }
+  .del-btn:hover{ color: var(--debit); }
+
+  .empty-row td{
+    text-align:center;
+    padding: 36px 24px;
+    color: var(--ink-soft);
+    font-family:'Courier New', monospace;
+    font-size: 13px;
+  }
+
+  footer.perforation{
+    height: 18px;
+    margin-top: -1px;
+    background-image: radial-gradient(circle, var(--paper) 4px, transparent 4.5px);
+    background-size: 18px 18px;
+    background-position: center;
+  }
+
+  @media (max-width: 720px){
+    .summary{ grid-template-columns: 1fr; }
+    form{ grid-template-columns: 1fr 1fr; }
+    form .submit-btn{ grid-column: 1 / -1; }
+    thead th:nth-child(4), tbody td:nth-child(4){ display:none; }
+  }
