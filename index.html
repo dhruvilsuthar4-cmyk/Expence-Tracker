@@ -1,102 +1,166 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Expense Ledger</title>
     <link rel="stylesheet" href="index.css">
-    <title>Expence System</title>
 </head>
 <body>
 
-   <div class="wrap">
-   <div class="cover">
-    <div class="cover-mark">₹</div>
-    <div class="cover-eyebrow">Personal Ledger</div>
-    <h1>Dhruvil Suthar</h1>
-    <p>Every rupee in, every rupee out — recorded in order.</p>
+<!-- First Time User Profile Modal -->
+<div class="profile-modal" id="profileModal">
+    <div class="profile-box">
+        <div class="profile-icon">₹</div>
+        <h2>Welcome to Your Ledger</h2>
+        <p>Enter your name to personalize your expense tracker.</p>
 
-    <div class="summary">
-      <div class="stamp balance" data-tag="Net">
-        <div class="label">Balance</div>
-        <div class="value" id="balanceValue">₹0.00</div>
-      </div>
-      <div class="stamp income" data-tag="Jama">
-        <div class="label">Total Income</div>
-        <div class="value" id="incomeValue">₹0.00</div>
-      </div>
-      <div class="stamp expense" data-tag="Kharch">
-        <div class="label">Total Expense</div>
-        <div class="value" id="expenseValue">₹0.00</div>
-      </div>
+        <form id="profileForm">
+            <input type="text" id="profileName"
+                   placeholder="Enter your full name"
+                   maxlength="40" required>
+
+            <button type="submit" class="submit-btn">
+                Save My Profile
+            </button>
+        </form>
     </div>
-  </div>
+</div>
 
-  <div class="slip">
-    <h2>New Entry</h2>
-    <form id="entryForm">
-      <div class="field">
-        <label for="desc">Description</label>
-        <input type="text" id="desc" placeholder="e.g. Grocery, Salary">
-      </div>
-      <div class="field">
-        <label for="category">Category</label>
-        <select id="category">
-          <option>Food</option>
-          <option>Travel</option>
-          <option>Bills</option>
-          <option>Shopping</option>
-          <option>Health</option>
-          <option>Salary</option>
-          <option>Other</option>
-        </select>
-      </div>
-      
-      <div class="field">
-        <label for="amount">Amount (₹)</label>
-        <input type="number" id="amount" placeholder="0.00" step="0.01">
-      </div>
-      <div class="field">
-        <label>Type</label>
-        <div class="toggle-type">
-          <button type="button" data-type="expense" class="active">Expense</button>
-          <button type="button" data-type="income">Income</button>
+<div class="wrap">
+
+    <!-- Header -->
+    <div class="cover">
+
+        <div class="cover-mark">₹</div>
+
+        <div class="cover-eyebrow">Personal Ledger</div>
+
+        <div class="profile-heading">
+            <h1 id="userName">My Ledger</h1>
+            <button type="button" id="editProfile" class="edit-profile">
+                ✎ Edit Name
+            </button>
         </div>
-      </div>
-      <button type="submit" class="submit-btn">+ Add Entry</button>
-    </form>
-    <div class="error-msg" id="errorMsg"></div>
-  </div>
 
-  <div class="ledger">
-    <div class="ledger-head">
-      <h2>Entries</h2>
-      <select class="filter-select" id="filterSelect">
-        <option value="all">All entries</option>
-        <option value="income">Income only</option>
-        <option value="expense">Expense only</option>
-      </select>
-    </div>
-    <table>
-      <thead>
-        <tr>
-          <th>Description</th>
-          <th>Date</th>
-          <th class="num">Amount</th>
-          <th class="num">Balance</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody id="ledgerBody">
-      </tbody>
-    </table>
-    <div id="emptyState" class="empty-row" style="display:none;">
-      <table style="margin:0;"><tbody><tr class="empty-row"><td>No entries yet — add your first transaction above.</td></tr></tbody></table>
-    </div>
-  </div>
+        <p>Every rupee in, every rupee out — recorded in order.</p>
 
-  <footer class="perforation"></footer>
+        <!-- Summary -->
+        <div class="summary">
+
+            <div class="stamp balance" data-tag="Net">
+                <div class="label">Balance</div>
+                <div class="value" id="balanceValue">₹0.00</div>
+            </div>
+
+            <div class="stamp income" data-tag="Jama">
+                <div class="label">Total Income</div>
+                <div class="value" id="incomeValue">₹0.00</div>
+            </div>
+
+            <div class="stamp expense" data-tag="Kharch">
+                <div class="label">Total Expense</div>
+                <div class="value" id="expenseValue">₹0.00</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- New Entry -->
+    <div class="slip">
+        <h2>New Entry</h2>
+
+        <form id="entryForm">
+
+            <div class="field">
+                <label for="desc">Description</label>
+                <input type="text" id="desc"
+                       placeholder="e.g. Grocery, Salary" required>
+            </div>
+
+            <div class="field">
+                <label for="category">Category</label>
+                <select id="category">
+                    <option>Food</option>
+                    <option>Travel</option>
+                    <option>Bills</option>
+                    <option>Shopping</option>
+                    <option>Health</option>
+                    <option>Salary</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="amount">Amount (₹)</label>
+                <input type="number" id="amount"
+                       placeholder="0.00" min="0.01"
+                       step="0.01" required>
+            </div>
+
+            <div class="field">
+                <label>Type</label>
+
+                <div class="toggle-type">
+                    <button type="button"
+                            data-type="expense" class="active">
+                        Expense
+                    </button>
+
+                    <button type="button" data-type="income">
+                        Income
+                    </button>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                + Add Entry
+            </button>
+
+        </form>
+
+        <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <!-- Transactions -->
+    <div class="ledger">
+
+        <div class="ledger-head">
+            <h2>Entries</h2>
+
+            <select class="filter-select" id="filterSelect">
+                <option value="all">All entries</option>
+                <option value="income">Income only</option>
+                <option value="expense">Expense only</option>
+            </select>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>Date</th>
+                    <th class="num">Amount</th>
+                    <th class="num">Balance</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody id="ledgerBody"></tbody>
+        </table>
+
+        <div id="emptyState" class="empty-row" style="display:none;">
+            No entries yet — add your first transaction above.
+        </div>
+
+    </div>
+
+    <footer class="perforation"></footer>
+
 </div>
 
 <script src="index.js"></script>
+
 </body>
 </html>
